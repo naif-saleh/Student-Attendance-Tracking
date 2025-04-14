@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Attendance\AttendanceList;
 use App\Livewire\Student\StudentCreate;
 use App\Livewire\Student\StudentList;
 use App\Livewire\Student\StudentUpdate;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/class/class-list', StudentClassesList::class)->name('student.class.list');
     Route::get('/class/class-create', StudentClassesCreate::class)->name('student.class.create');
     Route::get('/class/class-edit/{id}', StudentClassesUpdate::class)->name('student.class.edit');
+
+     // Student Attendance Routes
+     Route::get('/attendance/attendance-list/', AttendanceList::class)->name('attendance.list');
 
 });
 

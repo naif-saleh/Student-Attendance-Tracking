@@ -21,11 +21,14 @@
                     :current="request()->routeIs(Auth::user() && Auth::user()->isAdmin() ? 'admin.dashboard' : 'teacher.dashboard')"
                     wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
 
-                <flux:navlist.item icon="academic-cap" :href="route('student.list')"
+                <flux:navlist.item icon="user" :href="route('student.list')"
                     :current="request()->routeIs('student.list')" wire:navigate>{{ __('Student Management') }}
                 </flux:navlist.item>
                 <flux:navlist.item icon="bars-3-bottom-left" :href="route('student.class.list')"
                     :current="request()->routeIs('student.class.list')" wire:navigate>{{ __('Student Classes Management') }}
+                </flux:navlist.item>
+                 <flux:navlist.item icon="academic-cap" :href="route('attendance.list')"
+                    :current="request()->routeIs('attendance.list')" wire:navigate>{{ __('Student Attendance') }}
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
