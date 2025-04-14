@@ -1,3 +1,5 @@
 <div>
-    {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
+    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+        <livewire:base-dashboard />
+    </div>
 </div>

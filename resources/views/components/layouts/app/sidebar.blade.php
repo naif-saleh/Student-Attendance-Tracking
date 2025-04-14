@@ -9,45 +9,17 @@
     <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
+
+
+
+
+
+
         <a href="{{ route(Auth::user() && Auth::user()->isAdmin() ? 'admin.dashboard' : 'teacher.dashboard') }}"
             class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
             <x-app-logo />
         </a>
-
-        <flux:navlist variant="outline">
-            <flux:navlist.group :heading="__('Platform')" class="grid">
-                <flux:navlist.item icon="home"
-                    :href="route(Auth::user() && Auth::user()->isAdmin() ? 'admin.dashboard' : 'teacher.dashboard')"
-                    :current="request()->routeIs(Auth::user() && Auth::user()->isAdmin() ? 'admin.dashboard' : 'teacher.dashboard')"
-                    wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-
-                <flux:navlist.item icon="user" :href="route('student.list')"
-                    :current="request()->routeIs('student.list')" wire:navigate>{{ __('Student Management') }}
-                </flux:navlist.item>
-                <flux:navlist.item icon="bars-3-bottom-left" :href="route('student.class.list')"
-                    :current="request()->routeIs('student.class.list')" wire:navigate>{{ __('Student Classes Management') }}
-                </flux:navlist.item>
-                 <flux:navlist.item icon="academic-cap" :href="route('attendance.list')"
-                    :current="request()->routeIs('attendance.list')" wire:navigate>{{ __('Student Attendance') }}
-                </flux:navlist.item>
-            </flux:navlist.group>
-        </flux:navlist>
-
-        <flux:spacer />
-
-        <flux:navlist variant="outline">
-            <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit"
-                target="_blank">
-                {{ __('Repository') }}
-            </flux:navlist.item>
-
-            <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-            </flux:navlist.item>
-        </flux:navlist>
-
-        <!-- Desktop User Menu -->
-        <flux:dropdown position="bottom" align="start">
+        <flux:dropdown position="top" align="start">
             <flux:profile :name="auth()->user()->name" :initials="auth()->user()->initials()"
                 icon-trailing="chevrons-up-down" />
 
@@ -87,6 +59,34 @@
                 </form>
             </flux:menu>
         </flux:dropdown>
+        <flux:navlist variant="outline">
+            <flux:navlist.group :heading="__('Platform')" class="grid">
+
+                <flux:navlist.item icon="home"
+                    :href="route(Auth::user() && Auth::user()->isAdmin() ? 'admin.dashboard' : 'teacher.dashboard')"
+                    :current="request()->routeIs(Auth::user() && Auth::user()->isAdmin() ? 'admin.dashboard' : 'teacher.dashboard')"
+                    wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+
+                @if (Auth::user() && Auth::user()->isAdmin())
+                <flux:navlist.item icon="user" :href="route('student.list')"
+                    :current="request()->routeIs('student.list')" wire:navigate>{{ __('Student Management') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="bars-3-bottom-left" :href="route('student.class.list')"
+                    :current="request()->routeIs('student.class.list')" wire:navigate>{{ __('Student Classes
+                    Management') }}
+                </flux:navlist.item>
+                @endif
+                <flux:navlist.item icon="academic-cap" :href="route('attendance.list')"
+                    :current="request()->routeIs('attendance.list')" wire:navigate>{{ __('Student Attendance') }}
+                </flux:navlist.item>
+            </flux:navlist.group>
+        </flux:navlist>
+
+        <flux:spacer />
+
+
+        <!-- Desktop User Menu -->
+
     </flux:sidebar>
 
     <!-- Mobile User Menu -->

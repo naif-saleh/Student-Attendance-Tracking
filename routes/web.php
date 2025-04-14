@@ -34,9 +34,6 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/class/class-create', StudentClassesCreate::class)->name('student.class.create');
     Route::get('/class/class-edit/{id}', StudentClassesUpdate::class)->name('student.class.edit');
 
-     // Student Attendance Routes
-     Route::get('/attendance/attendance-list/', AttendanceList::class)->name('attendance.list');
-
 });
 
 
@@ -50,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+
+    // Student Attendance Routes
+    Route::get('/attendance/attendance-list/', AttendanceList::class)->name('attendance.list');
 });
 
 require __DIR__.'/auth.php';

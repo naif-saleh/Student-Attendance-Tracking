@@ -1,3 +1,5 @@
 <div>
-    {{-- If your happiness depends on money, you will never be happy with yourself. --}}
+    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+        <livewire:base-dashboard />
+    </div>
 </div>

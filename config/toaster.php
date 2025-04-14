@@ -14,7 +14,7 @@ return [
      *
      * Supported: "bottom", "middle" or "top"
      */
-    'alignment' => 'bottom',
+    'alignment' => 'top',
 
     /**
      * Allow users to close toast messages prematurely.
@@ -28,7 +28,7 @@ return [
      *
      * Minimum: 3000 (in milliseconds)
      */
-    'duration' => 3000,
+    'duration' => 6000,
 
     /**
      * The horizontal position of each toast.

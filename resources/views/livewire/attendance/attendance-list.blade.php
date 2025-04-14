@@ -1,9 +1,66 @@
 <div>
 
+    <div class="flex item-center gap-4 m-auto w-full max-w-2xl mb-10">
+        <select wire:model='year'
+            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+            <option selected="">Select Year</option>
+            @foreach (range(now()->year - 5, now()->year) as $y)
+            <option value="{{ $y }}">{{ $y }}</option>
+            @endforeach
+        </select>
+        <select wire:model='month'
+            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+            <option selected="">Select Month</option>
+            @foreach (range(1, 12) as $m)
+            <option value="{{ $m }}">
+                {{ Carbon\Carbon::create()->month($m)->format('F') }}</option>
+            @endforeach
+        </select>
+        <select wire:model='class'
+            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+            <option selected="">Select Class</option>
+            @foreach ($classes as $class)
+            <option wire:key='{{ $class->id }}' value="{{ $class->id }}">
+                {{ $class->name }}</option>
+            @endforeach
+        </select>
 
+        <button type="button" wire:click='fechStudent' wire:loading.attr="disabled"
+            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg cursor-pointer border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+            <span
+                class="animate-spin inline-block size-6 border-3 border-current border-t-transparent text-gray-200 rounded-full dark:text-gray-400"
+                role="status" wire:loading="loading">
+                <span class="sr-only">Searching...</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+
+        </button>
+        @if ($year && $month && $class)
+        <button type="button" wire:loading.attr="disabled" wire:click='exportToExcel'
+        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg cursor-pointer border  border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+        <span
+            class="animate-spin inline-block size-6 border-3 border-current border-t-transparent text-gray-200 rounded-full dark:text-gray-400"
+            role="status" wire:loading="loading">
+            <span class="sr-only">Exporting...</span>
+        </span>
+
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+        </svg>
+
+    </button>
+        @endif
+    </div>
 
     <!-- Table Section -->
     <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        @if ($year && $month && $class)
         <!-- Card -->
         <div class="flex flex-col">
             <div class="-m-1.5 overflow-x-auto">
@@ -23,37 +80,7 @@
 
                             <div>
                                 <div class="inline-flex gap-x-2">
-                                    <select
-                                        wire:model='year'
-                                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <option selected="">Select Year</option>
-                                        @foreach (range(now()->year - 5, now()->year) as $y)
-                                            <option value="{{ $y }}">{{ $y }}</option>
-                                        @endforeach
-                                    </select>
-                                    <select
-                                        wire:model='month'
-                                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <option selected="">Select Month</option>
-                                        @foreach (range(1, 12) as $m)
-                                            <option value="{{ $m }}">
-                                                {{ Carbon\Carbon::create()->month($m)->format('F') }}</option>
-                                        @endforeach
-                                    </select>
-                                    <select
-                                        wire:model='class'
-                                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <option selected="">Select Class</option>
-                                        @foreach ($classes as $class)
-                                            <option wire:key='{{ $class->id }}' value="{{ $class->id }}">
-                                                {{ $class->name }}</option>
-                                        @endforeach
-                                    </select>
 
-                                    <button type="button" wire:click='fechStudent'
-                                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                                        Search
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -72,19 +99,48 @@
                                         </span>
                                     </th>
 
+                                    @foreach ($daysOfMonth as $day)
                                     <th scope="col" class="px-6 py-3 text-start">
                                         <span
                                             class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
-                                            Action
+                                            {{ $day }}
+                                            <select wire:change='markAll({{ $day }}, $event.target.value)'
+                                                class='dark:bg-neutral-900 border-rounded'>
+                                                <option value="">All</option>
+                                                <option value="present">Peasent</option>
+                                                <option value="absent">Apsent</option>
+                                                <option value="sick">Sick</option>
+                                            </select>
                                         </span>
                                     </th>
+                                    @endforeach
 
 
                                 </tr>
                             </thead>
 
                             <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-
+                                @foreach ($students as $student)
+                                <tr>
+                                    <td class="h-px w-auto whitespace-nowrap">
+                                        <div class="px-6 py-2 flex items-center gap-x-3">
+                                            {{ $student->full_name }}
+                                        </div>
+                                    </td>
+                                    @foreach ($daysOfMonth as $day)
+                                    <td class="h-px w-auto whitespace-nowrap">
+                                        <select
+                                            wire:change='updateStatus({{ $student->id }}, {{ $day }}, $event.target.value)'
+                                            class='dark:bg-neutral-900 border-rounded'>
+                                            <option value="" {{ empty($attendance[$student->id][$day]) ? 'selected' : '' }}>Put status</option>
+                                            <option value="present" {{ $attendance[$student->id][$day] === 'present' ? 'selected' : '' }}>Peasent</option>
+                                            <option value="absent" {{ $attendance[$student->id][$day] === 'absent' ? 'selected' : '' }}>Apsent</option>
+                                            <option value="sick" {{ $attendance[$student->id][$day] === 'sick' ? 'selected' : '' }}>Sick</option>
+                                        </select>
+                                    </td>
+                                    @endforeach
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <!-- End Table -->
@@ -95,6 +151,12 @@
             </div>
         </div>
         <!-- End Card -->
+
+
+
+
+        @endif
+
     </div>
     <!-- End Table Section -->
 
