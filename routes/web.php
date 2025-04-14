@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
+    return redirect()->route('login');
+});
+Route::get('/home', function () {
     return view('welcome');
 })->name('home');
-
-
+ 
 
 
 Route::middleware(['auth', 'teacher'])->prefix('/teacher')->group(function (){
